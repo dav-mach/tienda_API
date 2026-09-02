@@ -35,5 +35,27 @@ class User extends Authenticatable
     {
         return $this->rol === 'admin';
     }
+
+    /**
+     * Qué se guarda como "sub" (subject) dentro del JWT: el id del usuario.
+     * Es lo mínimo que necesita el token para saber a quién representa.
+     */
+    public function getJWTIdentifier(): mixed
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Claims extra a incluir en el payload del JWT. Lo dejamos vacío a
+     * propósito: NO metemos datos sensibles (email, rol, etc.) en el
+     * token, porque el payload de un JWT viaja codificado pero NO
+     * cifrado — cualquiera que lo intercepte puede leerlo.
+     *
+     * @return array<string, mixed>
+     */
+    public function getJWTCustomClaims(): array
+    {
+        return [];
+    }
 }
 
