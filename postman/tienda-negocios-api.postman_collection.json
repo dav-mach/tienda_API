@@ -1,0 +1,736 @@
+{
+  "info": {
+    "_postman_id": "b6e2a8b0-6b2a-4f7a-9e2a-tienda-negocios-api",
+    "name": "Tienda de Negocios — API REST (Entrega 3)",
+    "description": "Productos, Categorías, Carrito y Checkout. Todas las respuestas son JSON con el formato { success, data|errors, message }.\n\nEl carrito se identifica con el header X-Cart-Token: la primera petición a cualquier endpoint de /carrito o /checkout no necesita mandarlo (se crea un carrito nuevo), y la respuesta lo devuelve en ese mismo header. Los scripts de test de esta colección lo guardan solo automáticamente en la variable {{cart_token}} para las peticiones siguientes.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000/api/v1"
+    },
+    {
+      "key": "cart_token",
+      "value": ""
+    },
+    {
+      "key": "producto_id",
+      "value": "1"
+    },
+    {
+      "key": "categoria_id",
+      "value": "1"
+    },
+    {
+      "key": "item_id",
+      "value": ""
+    },
+    {
+      "key": "pedido_id",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Productos",
+      "item": [
+        {
+          "name": "Listar productos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/productos?por_pagina=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "productos"
+              ],
+              "query": [
+                {
+                  "key": "por_pagina",
+                  "value": "10"
+                },
+                {
+                  "key": "categoria_id",
+                  "value": "1",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Listado paginado. Filtro opcional por categoria_id (bonus: búsqueda por categoría)."
+          }
+        },
+        {
+          "name": "Ver un producto",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/productos/{{producto_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "productos",
+                "{{producto_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear producto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Auriculares inalámbricos\",\n  \"precio\": 45000.00,\n  \"stock\": 20,\n  \"categoria_id\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/productos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "productos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar producto",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Notebook\",\n  \"precio\": 870000.00,\n  \"stock\": 6,\n  \"categoria_id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/productos/{{producto_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "productos",
+                "{{producto_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar producto",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/productos/{{producto_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "productos",
+                "{{producto_id}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categorías",
+      "item": [
+        {
+          "name": "Listar categorías",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/categorias",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "categorias"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Ver una categoría",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/categorias/{{categoria_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "categorias",
+                "{{categoria_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear categoría",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Audio\",\n  \"descripcion\": \"Auriculares, parlantes y accesorios de sonido\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/categorias",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "categorias"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar categoría",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Tecnología\",\n  \"descripcion\": \"Productos electrónicos y de cómputo en general\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/categorias/{{categoria_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "categorias",
+                "{{categoria_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar categoría",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/categorias/{{categoria_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "categorias",
+                "{{categoria_id}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Carrito",
+      "item": [
+        {
+          "name": "Ver carrito",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const token = pm.response.headers.get('X-Cart-Token');",
+                  "if (token) { pm.collectionVariables.set('cart_token', token); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Cart-Token",
+                "value": "{{cart_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/carrito",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "carrito"
+              ]
+            },
+            "description": "Primera vez: no hace falta mandar X-Cart-Token, se crea un carrito nuevo y el test script de esta request lo guarda solo en {{cart_token}}."
+          }
+        },
+        {
+          "name": "Agregar producto al carrito",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const token = pm.response.headers.get('X-Cart-Token');",
+                  "if (token) { pm.collectionVariables.set('cart_token', token); }",
+                  "",
+                  "if (pm.response.code === 201) {",
+                  "    const body = pm.response.json();",
+                  "    pm.collectionVariables.set('item_id', body.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Cart-Token",
+                "value": "{{cart_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"producto_id\": {{producto_id}},\n  \"cantidad\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/carrito/items",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "carrito",
+                "items"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar cantidad de un item",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Cart-Token",
+                "value": "{{cart_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cantidad\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/carrito/items/{{item_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "carrito",
+                "items",
+                "{{item_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Resumen de compra",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Cart-Token",
+                "value": "{{cart_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/carrito/resumen",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "carrito",
+                "resumen"
+              ]
+            },
+            "description": "Devuelve cantidad_items, subtotal, impuestos, costo_envio y total."
+          }
+        },
+        {
+          "name": "Eliminar un producto del carrito",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Cart-Token",
+                "value": "{{cart_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/carrito/items/{{item_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "carrito",
+                "items",
+                "{{item_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Vaciar carrito",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Cart-Token",
+                "value": "{{cart_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/carrito",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "carrito"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Checkout",
+      "item": [
+        {
+          "name": "1. Registrar datos de envío/pago",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const body = pm.response.json();",
+                  "    pm.collectionVariables.set('pedido_id', body.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Cart-Token",
+                "value": "{{cart_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_cliente\": \"Ana Pérez\",\n  \"email\": \"ana.perez@mail.com\",\n  \"direccion_envio\": \"Av. Siempre Viva 742\",\n  \"ciudad\": \"General Pico\",\n  \"codigo_postal\": \"6360\",\n  \"metodo_pago\": \"tarjeta\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "checkout"
+              ]
+            },
+            "description": "Crea el Pedido en estado pendiente_confirmacion con una foto del carrito actual. Todavía no descuenta stock."
+          }
+        },
+        {
+          "name": "2. Confirmar compra",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/checkout/{{pedido_id}}/confirmar",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "checkout",
+                "{{pedido_id}}",
+                "confirmar"
+              ]
+            },
+            "description": "Revalida stock, lo descuenta, marca el pedido como confirmado y vacía el carrito."
+          }
+        },
+        {
+          "name": "Ver estado de un pedido",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/checkout/{{pedido_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "checkout",
+                "{{pedido_id}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Casos de error (para probar el manejo estandarizado)",
+      "item": [
+        {
+          "name": "Crear producto sin nombre -> 422",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"precio\": 1000,\n  \"stock\": 5,\n  \"categoria_id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/productos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "productos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Ver producto inexistente -> 404",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/productos/999999",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "productos",
+                "999999"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Agregar más cantidad que el stock disponible -> 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Cart-Token",
+                "value": "{{cart_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"producto_id\": {{producto_id}},\n  \"cantidad\": 999999\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/carrito/items",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "carrito",
+                "items"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Confirmar checkout con carrito vacío -> 422",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Cart-Token",
+                "value": "un-token-de-un-carrito-recien-creado-y-vacio"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_cliente\": \"Test\",\n  \"email\": \"test@mail.com\",\n  \"direccion_envio\": \"Calle Falsa 123\",\n  \"ciudad\": \"Santa Rosa\",\n  \"codigo_postal\": \"6300\",\n  \"metodo_pago\": \"efectivo\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "checkout"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
