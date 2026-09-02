@@ -13,15 +13,17 @@ class DatabaseSeeder extends Seeder
     use WithoutModelEvents;
 
     /**
-     * Carga datos de ejemplo para poder probar el CRUD y la API apenas
-     * se levanta el proyecto. Los carritos y pedidos NO se siembran acá:
-     * se crean solos al usar la API (ver IdentificarCarrito).
+     * Carga datos de ejemplo. Incluye un usuario con contraseña conocida
+     * para poder probar el login en Postman apenas se levanta el proyecto.
+     * Los carritos y pedidos NO se siembran: se crean solos al usar la API.
      */
     public function run(): void
     {
-        User::factory()->create([
+        // Usuario de prueba: login con ana.perez@mail.com / password123
+        User::create([
             'name' => 'Ana Pérez',
             'email' => 'ana.perez@mail.com',
+            'password' => 'password123', // se hashea sola con bcrypt (cast 'hashed' del modelo)
             'rol' => 'admin',
         ]);
 
