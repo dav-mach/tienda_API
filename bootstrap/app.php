@@ -1,9 +1,17 @@
 <?php
 
+use App\Exceptions\CarritoVacioException;
+use App\Exceptions\PedidoYaConfirmadoException;
+use App\Exceptions\StockInsuficienteException;
+use App\Http\Middleware\IdentificarCarrito;
+use App\Http\Middleware\JwtAutenticado;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -14,8 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'carrito' => \App\Http\Middleware\IdentificarCarrito::class,
-]);
+            'jwt' => JwtAutenticado::class,          // exige un JWT válido (Entrega 4)
+            'carrito' => IdentificarCarrito::class,  // asigna el carrito del usuario autenticado
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // Cualquier error dentro de /api/* siempre responde en JSON (requisito 7),
