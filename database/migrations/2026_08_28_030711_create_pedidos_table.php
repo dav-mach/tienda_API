@@ -11,16 +11,21 @@ return new class extends Migration
      * datos de envío/pago + los totales ya calculados. Arranca en
      * estado 'pendiente_confirmacion' y pasa a 'confirmado' recién
      * cuando se valida y descuenta el stock definitivamente.
+     *
+     * Entrega 4: el pedido guarda el carrito_id y el usuario_id (ya no un
+     * token anónimo), porque ahora toda compra la hace un usuario logueado.
      */
     public function up(): void
     {
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
-            $table->uuid('carrito_token');
-            $table->foreignId('usuario_id')
+            $table->foreignId('carrito_id')
                 ->nullable()
-                ->constrained('users')
+                ->constrained('carritos')
                 ->nullOnDelete();
+            $table->foreignId('usuario_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
 
             $table->string('nombre_cliente');
             $table->string('email');

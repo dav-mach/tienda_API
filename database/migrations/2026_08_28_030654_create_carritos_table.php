@@ -7,19 +7,18 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * El carrito es su propia entidad, identificada por un token (no
-     * por usuario), para que la API pueda atender también a clientes
-     * sin login (una app, Postman, etc).
+     * Entrega 4: el carrito pertenece siempre a un usuario autenticado.
+     * Ya no se identifica con un token anónimo, sino por su usuario_id
+     * (que sale del JWT en cada petición). Por eso usuario_id es
+     * obligatorio y no hay columna "token".
      */
     public function up(): void
     {
         Schema::create('carritos', function (Blueprint $table) {
             $table->id();
-            $table->uuid('token')->unique();
             $table->foreignId('usuario_id')
-                ->nullable()
                 ->constrained('users')
-                ->nullOnDelete();
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

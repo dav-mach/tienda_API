@@ -51,7 +51,7 @@ class CheckoutService
 
         return DB::transaction(function () use ($carrito, $datos, $items, $resumen) {
             $pedido = Pedido::create([
-                'carrito_token' => $carrito->token,
+                'carrito_id' => $carrito->id,
                 'usuario_id' => $carrito->usuario_id,
                 'nombre_cliente' => $datos->nombreCliente,
                 'email' => $datos->email,
@@ -120,7 +120,7 @@ class CheckoutService
 
             $pedido->update(['estado' => Pedido::ESTADO_CONFIRMADO]);
 
-            Carrito::where('token', $pedido->carrito_token)->first()?->items()->delete();
+            $pedido->carrito?->items()->delete();
 
             return $pedido->fresh('items');
         });

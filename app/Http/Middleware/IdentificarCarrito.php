@@ -5,37 +5,29 @@ namespace App\Http\Middleware;
 use App\Models\Carrito;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Identifica el carrito de la petición actual (requisito 8: persistir
- * el carrito en base de datos para que el usuario no lo pierda entre
- * peticiones).
+ * Identifica el carrito de la petición actual a partir del usuario
+ * autenticado (Entrega 4). Ya no hay token anónimo: cada usuario tiene
+ * su carrito, y si todavía no tiene uno, se lo crea al vuelo.
  *
- * El cliente manda su token en el header X-Cart-Token. Si no lo manda
- * (primera vez), se crea un carrito nuevo y el token vuelve en ese mismo
- * header de la respuesta, para usarlo en las próximas peticiones.
+ * Se aplica DESPUÉS del middleware "jwt", así que acá siempre hay un
+ * usuario autenticado disponible en Auth::user().
  */
 class IdentificarCarrito
 {
-    public const HEADER = 'X-Cart-Token';
-
     public function handle(Request $request, Closure $next): Response
     {
-        $token = $request->header(self::HEADER);
+        $usuario = Auth::guard('api')->user();
 
-        $carrito = $token ? Carrito::where('token', $token)->first() : null;
-
-        if (!$carrito) {
-            $carrito = Carrito::create([]);
-        }
+        // firstOrCreate: si el usuario ya tiene carrito lo trae, si no lo crea.
+        $carrito = Carrito::firstOrCreate(['usuario_id' => $usuario->id]);
 
         // Disponible en los controladores vía $request->attributes->get('carrito')
         $request->attributes->set('carrito', $carrito);
 
-        $response = $next($request);
-        $response->headers->set(self::HEADER, $carrito->token);
-
-        return $response;
+        return $next($request);
     }
 }

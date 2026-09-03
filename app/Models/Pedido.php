@@ -21,7 +21,7 @@ class Pedido extends Model
     public const ESTADO_CANCELADO = 'cancelado';
 
     protected $fillable = [
-        'carrito_token',
+        'carrito_id',
         'usuario_id',
         'nombre_cliente',
         'email',
@@ -46,6 +46,11 @@ class Pedido extends Model
     public function items(): HasMany
     {
         return $this->hasMany(PedidoItem::class);
+    }
+
+    public function carrito(): BelongsTo
+    {
+        return $this->belongsTo(Carrito::class);
     }
 
     public function usuario(): BelongsTo

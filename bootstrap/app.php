@@ -106,6 +106,6 @@ return Application::configure(basePath: dirname(__DIR__))
                     ? 'Ocurrió un error inesperado.'
                     : $e->getMessage(),
                 'errors' => [],
-            ], $status);
+            ], $status);    
         });
     })->create();
