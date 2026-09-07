@@ -6,10 +6,12 @@ use App\DTOs\DatosCheckoutDTO;
 use App\Exceptions\CarritoVacioException;
 use App\Exceptions\PedidoYaConfirmadoException;
 use App\Exceptions\StockInsuficienteException;
+use App\Mail\PedidoConfirmadoMail;
 use App\Models\Carrito;
 use App\Models\Pedido;
 use App\Models\Producto;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * Orquesta el flujo de checkout (requisito 5):
@@ -122,7 +124,13 @@ class CheckoutService
 
             $pedido->carrito?->items()->delete();
 
-            return $pedido->fresh('items');
+            $pedido = $pedido->fresh('items');
+
+            // Notificación de confirmación al cliente. En los tests esto NO
+            // manda un email real: se intercepta con Mail::fake() (requisito 5).
+            Mail::to($pedido->email)->send(new PedidoConfirmadoMail($pedido));
+
+            return $pedido;
         });
     }
 }
