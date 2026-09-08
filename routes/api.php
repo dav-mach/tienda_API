@@ -86,5 +86,4 @@ Route::prefix('v1')->group(function () {
         Route::post('/checkout/{pedido}/confirmar', [CheckoutController::class, 'confirmar']);
         Route::get('/checkout/{pedido}', [CheckoutController::class, 'show']);
     });
-
 });

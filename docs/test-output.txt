@@ -1,0 +1,69 @@
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\CarritoServiceTest[39m
+  [32;1mÔ£ô[39;22m[90m [39m[90mel resumen de un carrito vacio da todo en cero[39m[90m                                                                            [39m [90m0.85s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mcalcula subtotal iva y envio sobre un subtotal bajo[39m[90m                                                                       [39m [90m0.05s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mel envio es gratis cuando el subtotal supera los 100000[39m[90m                                                                   [39m [90m0.04s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90msuma correctamente varias lineas de distintos productos[39m[90m                                                                   [39m [90m0.03s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\CheckoutMockeryTest[39m
+  [32;1mÔ£ô[39;22m[90m [39m[90mregistrar datos usa el resumen que le da el carrito service mockeado[39m[90m                                                      [39m [90m0.07s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\ModelosReglasTest[39m
+  [32;1mÔ£ô[39;22m[90m [39m[90mel subtotal de una linea es precio por cantidad[39m[90m                                                                           [39m [90m0.03s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mun carrito recien creado esta vacio[39m[90m                                                                                       [39m [90m0.03s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mun carrito con items no esta vacio[39m[90m                                                                                        [39m [90m0.03s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\ProductoStockTest[39m
+  [32;1mÔ£ô[39;22m[90m [39m[90mhay stock cuando la cantidad pedida es menor al stock[39m[90m                                                                     [39m [90m0.03s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mhay stock cuando la cantidad es exactamente igual al stock[39m[90m                                                                [39m [90m0.02s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mno hay stock cuando la cantidad supera el stock[39m[90m                                                                           [39m [90m0.02s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mno hay stock para una cantidad de cero o negativa[39m[90m                                                                         [39m [90m0.03s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mun producto sin stock nunca tiene disponibilidad[39m[90m                                                                          [39m [90m0.03s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\AuthTest[39m
+  [32;1mÔ£ô[39;22m[90m [39m[90mun usuario se puede registrar y recibe un token[39m[90m                                                                           [39m [90m0.15s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mlogin exitoso devuelve un token[39m[90m                                                                                           [39m [90m0.03s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mlogin con contrasena incorrecta devuelve 401[39m[90m                                                                              [39m [90m0.03s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90macceso a me sin token devuelve 401[39m[90m                                                                                        [39m [90m0.03s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90macceso a me con token devuelve el usuario[39m[90m                                                                                 [39m [90m0.03s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\CarritoTest[39m
+  [32;1mÔ£ô[39;22m[90m [39m[90magregar un producto al carrito con token[39m[90m                                                                                  [39m [90m0.04s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90magregar al carrito sin token devuelve 401[39m[90m                                                                                 [39m [90m0.03s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mno se puede agregar mas cantidad que el stock[39m[90m                                                                             [39m [90m0.07s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mquitar un producto del carrito[39m[90m                                                                                            [39m [90m0.05s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mel resumen del carrito devuelve los totales[39m[90m                                                                               [39m [90m0.04s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\CheckoutTest[39m
+  [32;1mÔ£ô[39;22m[90m [39m[90mel flujo de checkout completo confirma la compra y envia el email[39m[90m                                                         [39m [90m0.08s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mno se puede hacer checkout con el carrito vacio[39m[90m                                                                           [39m [90m0.04s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mconfirmar un pedido dos veces devuelve 409[39m[90m                                                                                [39m [90m0.06s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\ProductoTest[39m
+  [32;1mÔ£ô[39;22m[90m [39m[90mel listado de productos es publico[39m[90m                                                                                        [39m [90m0.04s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mcrear un producto con token funciona y lo guarda[39m[90m                                                                          [39m [90m0.03s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mcrear un producto sin token devuelve 401[39m[90m                                                                                  [39m [90m0.03s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mcrear un producto con datos invalidos devuelve 422[39m[90m                                                                        [39m [90m0.03s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\SeguridadMiddlewareTest[39m
+  [32;1mÔ£ô[39;22m[90m [39m[90msin token la ruta protegida devuelve 401 with data set "ver carrito"[39m[90m                                                      [39m [90m0.03s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90msin token la ruta protegida devuelve 401 with data set "resumen del carrito"[39m[90m                                              [39m [90m0.02s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90msin token la ruta protegida devuelve 401 with data set "agregar al carrito"[39m[90m                                               [39m [90m0.02s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90msin token la ruta protegida devuelve 401 with data set "vaciar carrito"[39m[90m                                                   [39m [90m0.02s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90msin token la ruta protegida devuelve 401 with data set "checkout"[39m[90m                                                         [39m [90m0.02s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90msin token la ruta protegida devuelve 401 with data set "ver usuario actual"[39m[90m                                               [39m [90m0.02s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90msin token la ruta protegida devuelve 401 with data set "crear producto"[39m[90m                                                   [39m [90m0.02s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90msin token la ruta protegida devuelve 401 with data set "crear categor├¡a"[39m[90m                                                  [39m [90m0.02s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mcon token invalido la ruta protegida devuelve 401 with data set "ver carrito"[39m[90m                                             [39m [90m0.03s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mcon token invalido la ruta protegida devuelve 401 with data set "resumen del carrito"[39m[90m                                     [39m [90m0.03s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mcon token invalido la ruta protegida devuelve 401 with data set "agregar al carrito"[39m[90m                                      [39m [90m0.02s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mcon token invalido la ruta protegida devuelve 401 with data set "vaciar carrito"[39m[90m                                          [39m [90m0.03s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mcon token invalido la ruta protegida devuelve 401 with data set "checkout"[39m[90m                                                [39m [90m0.02s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mcon token invalido la ruta protegida devuelve 401 with data set "ver usuario actual"[39m[90m                                      [39m [90m0.02s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mcon token invalido la ruta protegida devuelve 401 with data set "crear producto"[39m[90m                                          [39m [90m0.02s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mcon token invalido la ruta protegida devuelve 401 with data set "crear categor├¡a"[39m[90m                                         [39m [90m0.02s[39m  
+  [32;1mÔ£ô[39;22m[90m [39m[90mcon token valido se pasa el control del middleware[39m[90m                                                                        [39m [90m0.03s[39m  
+
+  [90mTests:[39m    [32;1m47 passed[39;22m[90m (104 assertions)[39m
+  [90mDuration:[39m [39m3.10s[39m
+
